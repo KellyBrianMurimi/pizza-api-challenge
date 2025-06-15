@@ -1,7 +1,7 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify
 from server.models.restaurant import Restaurant
 from server.models.restaurant_pizza import RestaurantPizza
-from server import db
+from server.db import db
 
 restaurant_bp = Blueprint('restaurant_bp', __name__, url_prefix='/restaurants')
 
@@ -12,24 +12,29 @@ def get_restaurants():
 
 @restaurant_bp.route('/<int:id>', methods=['GET'])
 def get_restaurant(id):
-    r = Restaurant.query.get(id)
-    if not r:
+    restaurant = Restaurant.query.get(id)
+    if not restaurant:
         return jsonify({"error": "Restaurant not found"}), 404
 
-    pizzas = [{"id": rp.pizza.id, "name": rp.pizza.name, "ingredients": rp.pizza.ingredients} for rp in r.restaurant_pizzas]
+    pizzas = [{
+        "id": rp.pizza_assoc.id,
+        "name": rp.pizza_assoc.name,
+        "ingredients": rp.pizza_assoc.ingredients
+    } for rp in restaurant.restaurant_pizzas]
+
     return jsonify({
-        "id": r.id,
-        "name": r.name,
-        "address": r.address,
+        "id": restaurant.id,
+        "name": restaurant.name,
+        "address": restaurant.address,
         "pizzas": pizzas
-    })
+    }), 200
 
 @restaurant_bp.route('/<int:id>', methods=['DELETE'])
 def delete_restaurant(id):
-    r = Restaurant.query.get(id)
-    if not r:
+    restaurant = Restaurant.query.get(id)
+    if not restaurant:
         return jsonify({"error": "Restaurant not found"}), 404
 
-    db.session.delete(r)
+    db.session.delete(restaurant)
     db.session.commit()
     return '', 204

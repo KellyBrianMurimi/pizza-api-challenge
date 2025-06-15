@@ -7,4 +7,8 @@ class Pizza(db.Model):
     name = db.Column(db.String, nullable=False)
     ingredients = db.Column(db.String, nullable=False)
 
-    restaurant_pizzas = db.relationship("RestaurantPizza", backref="pizza")
+    restaurant_pizzas = db.relationship(
+        "RestaurantPizza", 
+        backref="pizza_assoc", 
+        cascade="all, delete"
+    )

@@ -25,11 +25,12 @@ with app.app_context():
     db.session.commit()
 
     print("Seeding restaurant pizzas...")
-    rp1 = RestaurantPizza(price=850, restaurant_id=r1.id, pizza_id=p1.id)
-    rp2 = RestaurantPizza(price=900, restaurant_id=r1.id, pizza_id=p2.id)
-    rp3 = RestaurantPizza(price=750, restaurant_id=r2.id, pizza_id=p3.id)
+    # Changed prices to be between 1-30
+    rp1 = RestaurantPizza(price=15, restaurant_id=r1.id, pizza_id=p1.id)
+    rp2 = RestaurantPizza(price=20, restaurant_id=r1.id, pizza_id=p2.id)
+    rp3 = RestaurantPizza(price=12, restaurant_id=r2.id, pizza_id=p3.id)
 
     db.session.add_all([rp1, rp2, rp3])
     db.session.commit()
 
-    print(" Seeding complete!")
+    print("Seeding complete!")
