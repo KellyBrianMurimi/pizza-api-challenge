@@ -1,8 +1,8 @@
 {
   "info": {
     "name": "Pizza API Challenge",
-    "_postman_id": "0c321245-60fc-4b4c-b78f-2bda9e233457",
-    "description": "Postman Collection for SA Phase 4 - Pizza Restaurants Code Challenge",
+    "_postman_id": "pizza-api-local-test-5555",
+    "description": "Postman Collection for testing Pizza API on port 5555",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -63,7 +63,7 @@
       }
     },
     {
-      "name": "POST RestaurantPizza",
+      "name": "POST RestaurantPizza (Valid)",
       "request": {
         "method": "POST",
         "header": [
@@ -99,7 +99,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"price\": 40,\n  \"pizza_id\": 1,\n  \"restaurant_id\": 1\n}"
+          "raw": "{\n  \"price\": 50,\n  \"pizza_id\": 1,\n  \"restaurant_id\": 2\n}"
         },
         "url": {
           "raw": "http://localhost:5555/restaurant_pizzas",

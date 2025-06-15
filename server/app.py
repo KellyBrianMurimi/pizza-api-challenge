@@ -18,4 +18,9 @@ def create_app():
     app.register_blueprint(pizza_bp)
     app.register_blueprint(restaurant_pizza_bp)
 
+    if __name__ == "__main__":
+     app.run(port=5555)
+    
     return app
+
+
