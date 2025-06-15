@@ -1,4 +1,4 @@
-from ..app import db
+from server.db import db
 
 class RestaurantPizza(db.Model):
     __tablename__ = 'restaurant_pizzas'
