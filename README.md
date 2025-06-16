@@ -70,4 +70,156 @@ flask db migrate -m "Initial migration"
 flask db upgrade
 
 # Seed the database with sample data:
-python server/seed.py
+python -m server.seed
+
+## API Endpoints
+# Testing Instructions
+Import the provided Postman collection (challenge-1-pizzas.postman_collection.json)
+
+For each request:
+
+In the Headers section, add:
+Key: Content-Type
+Value: application/json
+
+For requests with bodies (POST), set the Body to:
+Raw > JSON
+Send the request and examine the response
+
+Restaurants
+Get All Restaurants
+Method: GET
+Endpoint: /restaurants
+Description: Retrieve a list of all restaurants
+Testing:
+
+Select the "GET All Restaurants" request in Postman
+
+Send the request
+
+Expected Response (200 OK):
+
+json
+[
+  {
+    "id": 1,
+    "name": "Pizza Place",
+    "address": "123 Main St"
+  }
+]
+Get Single Restaurant
+Method: GET
+Endpoint: /restaurants/<int:id>
+Description: Get details of a specific restaurant including its pizzas
+Testing:
+
+Select the "GET Single Restaurant" request
+
+Ensure the ID in the URL matches an existing restaurant
+
+Send the request
+
+Expected Response (200 OK):
+
+json
+{
+  "id": 1,
+  "name": "Pizza Place",
+  "address": "123 Main St",
+  "pizzas": [
+    {
+      "id": 1,
+      "name": "Pepperoni",
+      "ingredients": "Tomato, Mozzarella, Pepperoni"
+    }
+  ]
+}
+Test with invalid ID to verify 404 response
+
+Delete Restaurant
+Method: DELETE
+Endpoint: /restaurants/<int:id>
+Description: Delete a restaurant and its associations
+Testing:
+
+Select the "DELETE Restaurant" request
+
+Set the ID of an existing restaurant
+
+Send the request
+
+Expected Response: 204 No Content
+
+Verify deletion by trying to GET the same ID
+
+Pizzas
+Get All Pizzas
+Method: GET
+Endpoint: /pizzas
+Description: Retrieve a list of all available pizzas
+Testing:
+
+Select the "GET All Pizzas" request
+
+Send the request
+
+Expected Response (200 OK):
+
+json
+[
+  {
+    "id": 1,
+    "name": "Pepperoni",
+    "ingredients": "Tomato, Mozzarella, Pepperoni"
+  }
+]
+Restaurant Pizzas
+Create Association
+Method: POST
+Endpoint: /restaurant_pizzas
+Description: Create a new pizza-restaurant association
+Testing:
+
+Select the "POST RestaurantPizza" request
+
+In the Body tab, provide valid JSON:
+
+json
+{
+  "price": 15,
+  "pizza_id": 1,
+  "restaurant_id": 1
+}
+Send the request
+
+Expected Success Response (201 Created):
+
+json
+{
+  "id": 1,
+  "price": 15,
+  "pizza": {
+    "id": 1,
+    "name": "Pepperoni",
+    "ingredients": "Tomato, Mozzarella, Pepperoni"
+  },
+  "restaurant": {
+    "id": 1,
+    "name": "Pizza Place",
+    "address": "123 Main St"
+  }
+}
+
+# Test validation by sending:
+Invalid price (should return 400)
+Missing fields (should return 400)
+Non-existent IDs (should return 404)
+
+
+# Technologies Used
+Python 3.8
+Flask
+SQLAlchemy
+Flask-Migrate
+Postman (for testing)
+
